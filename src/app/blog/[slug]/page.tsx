@@ -1,6 +1,14 @@
+import fs from 'fs';
+import path from 'path';
 import { getAuthorById, Author } from '../authors';
 import Link from 'next/link';
 import Image from 'next/image';
+
+export function generateStaticParams() {
+  const blogDir = path.join(process.cwd(), 'src', 'blogContent');
+  const files = fs.readdirSync(blogDir).filter((f) => f.endsWith('.mdx'));
+  return files.map((f) => ({ slug: f.replace(/\.mdx$/, '') }));
+}
 
 function AuthorComponent({ authors }: { authors: Author[] }) {
     return <div className="w-full max-w-sm p-4 bg-card rounded-lg">

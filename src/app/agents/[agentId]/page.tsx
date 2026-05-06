@@ -1,19 +1,23 @@
-"use client";
-
-import { useParams } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, Info, ExternalLink, Cog } from "lucide-react";
 import Link from "next/link";
 import { agents } from "@/data/agents";
-import ReactMarkdown from "react-markdown";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
+import AgentSystemMessage from "./agent-system-message";
 
-const AgentPage = () => {
-  const params = useParams();
-  const agentId = params.agentId as string;
-  const agent = agents.find((agent) => agent.id === agentId);
+export function generateStaticParams() {
+  return agents.map((agent) => ({ agentId: agent.id }));
+}
+
+export default async function AgentPage({
+  params,
+}: {
+  params: Promise<{ agentId: string }>;
+}) {
+  const { agentId } = await params;
+  const agent = agents.find((a) => a.id === agentId);
 
   if (!agent) {
     return (
@@ -66,7 +70,7 @@ const AgentPage = () => {
             <Separator />
             <CardContent className="pt-6">
               <div className="prose w-full max-w-none dark:prose-invert">
-                <ReactMarkdown>{agent.systemMessage.join("\n")}</ReactMarkdown>
+                <AgentSystemMessage content={agent.systemMessage.join("\n")} />
               </div>
             </CardContent>
           </Card>
@@ -116,6 +120,4 @@ const AgentPage = () => {
       </div>
     </div>
   );
-};
-
-export default AgentPage;
+}

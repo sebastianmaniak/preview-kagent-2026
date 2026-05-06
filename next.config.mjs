@@ -5,7 +5,11 @@ import rehypeUnwrapImages from 'rehype-unwrap-images'
 import remarkFrontmatter from 'remark-frontmatter'
 import remarkGfm from 'remark-gfm'
 
+const isGitHubPages = process.env.GITHUB_PAGES === 'true';
+
 const nextConfig = {
+  output: isGitHubPages ? 'export' : undefined,
+  basePath: isGitHubPages ? '/preview-kagent-2026' : '',
   pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
   async redirects() {
     return [
@@ -29,6 +33,7 @@ const nextConfig = {
     return config;
   },
   images: {
+    unoptimized: isGitHubPages,
     remotePatterns: [
       {
         protocol: 'https',

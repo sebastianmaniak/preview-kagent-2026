@@ -1,4 +1,14 @@
+import fs from 'fs'
+import path from 'path'
 import { ImageResponse } from 'next/og'
+
+export function generateStaticParams() {
+  const blogDir = path.join(process.cwd(), 'src', 'blogContent')
+  const files = fs.readdirSync(blogDir).filter((f) => f.endsWith('.mdx'))
+  return files.map((f) => ({ slug: f.replace(/\.mdx$/, '') }))
+}
+
+export const dynamic = 'force-static'
 
 // Image metadata
 export const size = {

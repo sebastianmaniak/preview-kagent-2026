@@ -1,6 +1,3 @@
-"use client";
-
-import { useParams } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import {
@@ -11,12 +8,19 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { getCategory } from "@/data/tools";
+import { categories, getCategory } from "@/data/tools";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-const CategoryPage = () => {
-  const params = useParams();
-  const categoryId = params.categoryId as string;
+export function generateStaticParams() {
+  return categories.map((cat) => ({ categoryId: cat.id }));
+}
+
+export default async function CategoryPage({
+  params,
+}: {
+  params: Promise<{ categoryId: string }>;
+}) {
+  const { categoryId } = await params;
   const category = getCategory(categoryId);
 
   if (!category) {
@@ -84,6 +88,4 @@ const CategoryPage = () => {
       </div>
     </div>
   );
-};
-
-export default CategoryPage;
+}

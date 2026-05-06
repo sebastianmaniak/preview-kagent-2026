@@ -1,6 +1,8 @@
 import KagentLogo from '@/components/icons/kagent-logo'
 import { ImageResponse } from 'next/og'
- 
+
+export const dynamic = 'force-static'
+
 export const size = {
   width: 378,
   height: 286,
