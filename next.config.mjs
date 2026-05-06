@@ -7,9 +7,14 @@ import remarkGfm from 'remark-gfm'
 
 const isGitHubPages = process.env.GITHUB_PAGES === 'true';
 
+const basePath = isGitHubPages ? '/preview-kagent-2026' : '';
+
 const nextConfig = {
   output: isGitHubPages ? 'export' : undefined,
-  basePath: isGitHubPages ? '/preview-kagent-2026' : '',
+  basePath,
+  env: {
+    NEXT_PUBLIC_BASE_PATH: basePath,
+  },
   pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
   async redirects() {
     return [

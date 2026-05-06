@@ -249,7 +249,7 @@ export default function RedesignPage() {
                   <div style={{ width: 32 }} />
                 </div>
                 <Image
-                  src="/images/redesign/kagent-dashboard-hero.png"
+                  src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/images/redesign/kagent-dashboard-hero.png`}
                   alt="kagent Agents Dashboard"
                   width={1280}
                   height={900}

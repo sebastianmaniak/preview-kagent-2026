@@ -42,29 +42,32 @@ const EnterprisePage = () => {
     setMounted(true);
   }, []);
 
+  const bp = process.env.NEXT_PUBLIC_BASE_PATH || '';
+
   // Helper function to get the appropriate logo based on theme
   const getDistributionLogo = (distribution: Distribution): string => {
+    const prefix = (p: string) => p.startsWith('/') ? `${bp}${p}` : p;
     if (distribution.logo_light && distribution.logo_dark && mounted) {
-      return resolvedTheme === 'dark' ? distribution.logo_dark : distribution.logo_light;
+      return prefix(resolvedTheme === 'dark' ? distribution.logo_dark : distribution.logo_light);
     }
-    return distribution.logo || distribution.logo_light || '';
+    return prefix(distribution.logo || distribution.logo_light || '');
   };
 
   const getCncfLogo = (): string => {
     if (mounted) {
-      return resolvedTheme === 'dark' ? "/images/contributors/cncf-dark.png" : "/images/contributors/cncf-light.png";
+      return resolvedTheme === 'dark' ? `${bp}/images/contributors/cncf-dark.png` : `${bp}/images/contributors/cncf-light.png`;
     }
-    return "/images/contributors/cncf-light.png";
+    return `${bp}/images/contributors/cncf-light.png`;
   };
 
   // Community contributors data
   const contributors = [
-    { name: "Google", logo: "/images/contributors/google.svg" },
-    { name: "Confluent", logo: "/images/contributors/confluent.svg" },
-    { name: "Adobe", logo: "/images/contributors/adobe.svg" },
-    { name: "Red Hat", logo: "/images/contributors/redhat.svg" },
-    { name: "IBM", logo: "/images/contributors/ibm.svg" },
-    { name: "Microsoft", logo: "/images/contributors/microsoft.svg" },
+    { name: "Google", logo: `${bp}/images/contributors/google.svg` },
+    { name: "Confluent", logo: `${bp}/images/contributors/confluent.svg` },
+    { name: "Adobe", logo: `${bp}/images/contributors/adobe.svg` },
+    { name: "Red Hat", logo: `${bp}/images/contributors/redhat.svg` },
+    { name: "IBM", logo: `${bp}/images/contributors/ibm.svg` },
+    { name: "Microsoft", logo: `${bp}/images/contributors/microsoft.svg` },
   ];
 
   return (

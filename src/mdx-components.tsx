@@ -166,12 +166,16 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
           {children}
         </td>
       ),
-      img: ({ ...props }) => (
-        <figure>
-          <Image src={props.src} alt={props.title} width="0" height="0" sizes="100vw" className="w-full h-auto" />
-          {props.title && <figcaption className="text-xs text-center italic">{props.title}</figcaption>}
-        </figure>
-      ),
+      img: ({ ...props }) => {
+        const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+        const src = props.src && props.src.startsWith('/') ? `${basePath}${props.src}` : props.src;
+        return (
+          <figure>
+            <Image src={src} alt={props.title} width="0" height="0" sizes="100vw" className="w-full h-auto" />
+            {props.title && <figcaption className="text-xs text-center italic">{props.title}</figcaption>}
+          </figure>
+        );
+      },
       // Pre (for code blocks)
       pre: ({ children }) => <>{children}</>,
       PlatformTabs,
